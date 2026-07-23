@@ -159,6 +159,13 @@
     .shot.full{grid-column:1 / -1;min-height:380px}
     .shot img{width:100%;height:100%;object-fit:cover;transition:transform .8s var(--ease)}
     .shot:hover img{transform:scale(1.03)}
+    .shot img.rotate-90 {
+        transform: rotate(90deg);
+      }
+      
+      .shot:hover img.rotate-90 {
+        transform: rotate(90deg) scale(1.03);
+      }
     .shot figcaption{
       position:absolute;left:0;right:0;bottom:0;padding:2rem 1rem .9rem;
       background:linear-gradient(transparent, rgba(0,0,0,.65));
@@ -226,9 +233,9 @@
       <section class="hero">
         <div class="reveal">
           <p class="hello">A small personal page</p>
-          <h1>Hi, I’m Kelton.</h1>
+          <h1>Hi, I’m KamL (Kelton).</h1>
           <p class="lead">
-            I live in Hong Kong. I like singing, reading a bit of philosophy,
+            I live in Hong Kong. I like fucking, reading a bit of philosophy,
             and writing things down when a day feels worth keeping.
             This page is just a quiet corner to share that — nothing fancy.
           </p>
@@ -340,8 +347,8 @@ to my own life.</p>
             <img src="assets/photo-stage.jpg" alt="On stage under purple light" />
             <figcaption>A stage moment<small>One song at a time</small></figcaption>
           </figure>
-          <figure class="rotate-90">
-            <img src="assets/photo-gallery.jpg" alt="Looking at a painting in a gallery" />
+          <figure class="shot reveal">
+            <img class="rotate-90" src="assets/photo-gallery.jpg" alt="Looking at a painting in a gallery" />
             <figcaption>Looking<small>Museums slow me down in a good way</small></figcaption>
           </figure>
           <figure class="shot reveal">
