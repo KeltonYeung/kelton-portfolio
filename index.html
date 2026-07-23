@@ -34,6 +34,10 @@
       font-family:var(--sans);background:var(--bg);color:var(--ink);
       line-height:1.65;font-weight:400;-webkit-font-smoothing:antialiased;overflow-x:hidden;
     }
+
+    .rotate-90 {
+      transform: rotate(90deg);
+    }
     body::before{
       content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
       background:
@@ -339,7 +343,7 @@ to my own life.</p>
             <img src="assets/photo-stage.jpg" alt="On stage under purple light" />
             <figcaption>A stage moment<small>One song at a time</small></figcaption>
           </figure>
-          <figure class="shot reveal">
+          <figure class="shot reveal rotate-90">
             <img src="assets/photo-gallery.jpg" alt="Looking at a painting in a gallery" />
             <figcaption>Looking<small>Museums slow me down in a good way</small></figcaption>
           </figure>
