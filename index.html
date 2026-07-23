@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kelton Yeung</title>
+  <meta name="description" content="Kelton Yeung — a simple page about singing, thinking, and everyday life in Hong Kong." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #0b0a09;
+      --bg2: #141210;
+      --ink: #f4efe7;
+      --muted: #a59c90;
+      --faint: #6f675d;
+      --line: rgba(244,239,231,.1);
+      --line2: rgba(244,239,231,.16);
+      --accent: #c9a27a;
+      --max: 1040px;
+      --ease: cubic-bezier(.22,1,.36,1);
+      --display: "Cormorant Garamond", Georgia, serif;
+      --sans: "Outfit", system-ui, sans-serif;
+    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    @media (prefers-reduced-motion:reduce){
+      html{scroll-behavior:auto}
+      .reveal{opacity:1!important;transform:none!important}
+      *{animation:none!important;transition:none!important}
+    }
+    body{
+      font-family:var(--sans);background:var(--bg);color:var(--ink);
+      line-height:1.65;font-weight:400;-webkit-font-smoothing:antialiased;overflow-x:hidden;
+    }
+    body::before{
+      content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
+      background:
+        radial-gradient(800px 420px at 12% -10%, rgba(201,162,122,.1), transparent 60%),
+        radial-gradient(600px 380px at 100% 8%, rgba(120,130,170,.06), transparent 55%);
+    }
+    a{color:inherit;text-decoration:none}
+    img{display:block;max-width:100%}
+    button{font:inherit;color:inherit;border:0;background:none;cursor:pointer}
+    .wrap{width:min(100% - 2rem, var(--max));margin-inline:auto;position:relative;z-index:1}
+
+    .nav{
+      position:sticky;top:0;z-index:40;
+      backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+      background:rgba(11,10,9,.72);border-bottom:1px solid transparent;transition:border-color .3s;
+    }
+    .nav.on{border-bottom-color:var(--line)}
+    .nav-inner{height:68px;display:flex;align-items:center;justify-content:space-between;gap:1rem}
+    .brand{display:flex;align-items:center;gap:.7rem;font-weight:500;font-size:.95rem;letter-spacing:-.01em}
+    .brand img{width:36px;height:36px;border-radius:50%;object-fit:cover;border:1px solid var(--line2)}
+    .nav-links{display:flex;gap:.15rem}
+    .nav-links a{
+      padding:.5rem .8rem;border-radius:999px;color:var(--muted);font-size:.88rem;font-weight:400;transition:.2s;
+    }
+    .nav-links a:hover,.nav-links a:focus-visible{color:var(--ink);background:rgba(244,239,231,.05);outline:none}
+    .burger{display:none;width:42px;height:42px;place-items:center;border:1px solid var(--line);border-radius:11px}
+    .burger i,.burger i::before,.burger i::after{display:block;width:16px;height:1.5px;background:var(--ink);position:relative}
+    .burger i::before,.burger i::after{content:"";position:absolute;left:0}
+    .burger i::before{top:-5px}.burger i::after{top:5px}
+    .drawer{display:none;border-top:1px solid var(--line);padding:.4rem 0 .9rem}
+    .nav.open .drawer{display:block}
+    .drawer a{display:block;padding:.8rem .7rem;border-radius:10px;color:var(--muted)}
+    .drawer a:hover{color:var(--ink);background:rgba(244,239,231,.05)}
+
+    .hero{
+      padding:clamp(2.8rem,8vw,5rem) 0 clamp(2.8rem,6vw,4.2rem);
+      display:grid;grid-template-columns:1.05fr .95fr;gap:clamp(1.5rem,4vw,3rem);align-items:center;
+    }
+    .hello{
+      font-size:.78rem;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);
+      font-weight:500;margin-bottom:1rem;
+    }
+    h1{
+      font-family:var(--display);font-weight:500;font-size:clamp(3rem,7.5vw,4.6rem);
+      line-height:1;letter-spacing:-.02em;margin-bottom:1rem;
+    }
+    .lead{
+      max-width:32rem;color:var(--muted);font-weight:300;font-size:1.05rem;line-height:1.75;
+      margin-bottom:1.5rem;text-wrap:pretty;
+    }
+    .actions{display:flex;flex-wrap:wrap;gap:.65rem}
+    .btn{
+      display:inline-flex;align-items:center;justify-content:center;
+      min-height:46px;padding:.7rem 1.15rem;border-radius:999px;font-size:.9rem;font-weight:500;
+      transition:transform .2s var(--ease), background .2s, border-color .2s;
+    }
+    .btn:hover{transform:translateY(-1px)}
+    .btn:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+    .btn-soft{background:rgba(244,239,231,.08);border:1px solid var(--line2);color:var(--ink)}
+    .btn-soft:hover{background:rgba(244,239,231,.12)}
+    .btn-line{border:1px solid var(--line2);color:var(--muted)}
+    .btn-line:hover{color:var(--ink);border-color:rgba(244,239,231,.28)}
+
+    .photo{
+      border-radius:24px;overflow:hidden;border:1px solid var(--line);aspect-ratio:3/4;
+      background:var(--bg2);box-shadow:0 28px 70px rgba(0,0,0,.35);
+    }
+    .photo img{width:100%;height:100%;object-fit:cover;object-position:center 18%}
+
+    section{padding:clamp(2.6rem,6vw,4.2rem) 0}
+    .label{
+      font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--faint);
+      margin-bottom:.55rem;font-weight:500;
+    }
+    h2{
+      font-family:var(--display);font-weight:500;font-size:clamp(1.9rem,4vw,2.6rem);
+      line-height:1.15;letter-spacing:-.015em;margin-bottom:1.1rem;
+    }
+    .prose{color:var(--muted);font-weight:300;font-size:1.02rem;line-height:1.8;max-width:38rem;text-wrap:pretty}
+    .prose p+p{margin-top:1rem}
+    .prose strong{color:var(--ink);font-weight:500}
+
+    .two{display:grid;grid-template-columns:1.1fr .9fr;gap:clamp(1.2rem,3vw,2.2rem);align-items:start}
+    .note{
+      border:1px solid var(--line);border-radius:18px;background:var(--bg2);padding:1.2rem 1.25rem;
+    }
+    .note h3{font-size:.95rem;font-weight:500;margin-bottom:.7rem;color:var(--ink)}
+    .note ul{list-style:none;display:grid;gap:.55rem}
+    .note li{color:var(--muted);font-weight:300;font-size:.92rem;padding-left:0.9rem;position:relative}
+    .note li::before{content:"";position:absolute;left:0;top:.55em;width:5px;height:5px;border-radius:50%;background:var(--accent);opacity:.7}
+
+    .stage{
+      display:grid;grid-template-columns:1.05fr .95fr;gap:0;border:1px solid var(--line);
+      border-radius:24px;overflow:hidden;background:var(--bg2);
+    }
+    .stage-img{min-height:320px}
+    .stage-img img{width:100%;height:100%;object-fit:cover}
+    .stage-copy{padding:clamp(1.4rem,3vw,2rem);display:flex;flex-direction:column;justify-content:center}
+    .stage-copy p{color:var(--muted);font-weight:300;line-height:1.75;margin-bottom:1rem;text-wrap:pretty}
+
+    .words{
+      border:1px solid var(--line);border-radius:24px;background:var(--bg2);
+      padding:clamp(1.4rem,3vw,2rem);
+    }
+    .quote{
+      font-family:var(--display);font-style:italic;font-size:clamp(1.25rem,2.5vw,1.55rem);
+      line-height:1.55;color:var(--ink);margin-bottom:1rem;max-width:36rem;
+    }
+    .quote-src{font-size:.82rem;color:var(--faint);margin-bottom:1.4rem}
+    .word-grid{display:grid;grid-template-columns:1fr 1fr;gap:.8rem}
+    .card{
+      border:1px solid var(--line);border-radius:16px;padding:1.1rem 1.15rem;background:rgba(244,239,231,.02);
+    }
+    .card h3{font-family:var(--display);font-size:1.25rem;font-weight:500;margin-bottom:.5rem}
+    .card p{font-family:var(--display);color:var(--muted);font-size:1.02rem;line-height:1.7;white-space:pre-line;font-weight:400}
+
+    .gallery{display:grid;grid-template-columns:1.15fr 1fr;gap:.8rem}
+    .shot{
+      position:relative;overflow:hidden;border-radius:20px;border:1px solid var(--line);
+      background:var(--bg2);min-height:260px;
+    }
+    .shot.full{grid-column:1 / -1;min-height:380px}
+    .shot img{width:100%;height:100%;object-fit:cover;transition:transform .8s var(--ease)}
+    .shot:hover img{transform:scale(1.03)}
+    .shot figcaption{
+      position:absolute;left:0;right:0;bottom:0;padding:2rem 1rem .9rem;
+      background:linear-gradient(transparent, rgba(0,0,0,.65));
+      font-size:.84rem;font-weight:400;color:rgba(244,239,231,.9);
+    }
+    .shot figcaption small{display:block;color:rgba(244,239,231,.65);font-size:.75rem;margin-top:.1rem}
+
+    .contact{
+      border:1px solid var(--line);border-radius:24px;background:var(--bg2);
+      padding:clamp(1.4rem,3vw,2rem);
+      display:grid;grid-template-columns:1.2fr .8fr;gap:1.2rem;align-items:center;
+    }
+    .contact p{color:var(--muted);font-weight:300;margin:.6rem 0 1.2rem;max-width:30rem}
+    .links{display:flex;flex-wrap:wrap;gap:.55rem}
+    .side-links{display:grid;gap:.45rem}
+    .side-links a{
+      display:flex;justify-content:space-between;gap:.8rem;padding:.7rem .85rem;
+      border-radius:12px;border:1px solid var(--line);color:var(--muted);font-size:.88rem;transition:.2s;
+    }
+    .side-links a:hover{color:var(--ink);border-color:rgba(201,162,122,.35)}
+    .side-links em{font-style:normal;color:var(--faint);font-size:.78rem}
+
+    footer{padding:1.8rem 0 2.3rem;border-top:1px solid var(--line);color:var(--faint);font-size:.82rem}
+    .foot{display:flex;flex-wrap:wrap;justify-content:space-between;gap:.6rem 1.2rem}
+
+    .reveal{opacity:0;transform:translateY(14px);transition:opacity .65s var(--ease), transform .65s var(--ease)}
+    .reveal.in{opacity:1;transform:none}
+
+    @media (max-width:880px){
+      .hero,.two,.stage,.word-grid,.gallery,.contact{grid-template-columns:1fr}
+      .shot.full{min-height:280px}
+      .nav-links{display:none}
+      .burger{display:grid}
+      .stage-img{min-height:260px}
+    }
+  </style>
+</head>
+<body>
+  <header class="nav" id="nav">
+    <div class="wrap nav-inner">
+      <a class="brand" href="#top">
+        <img src="assets/avatar.jpg" alt="" width="36" height="36" />
+        <span>Kelton Yeung</span>
+      </a>
+      <nav class="nav-links" aria-label="Primary">
+        <a href="#about">About</a>
+        <a href="#music">Music</a>
+        <a href="#notes">Notes</a>
+        <a href="#photos">Photos</a>
+        <a href="#hello">Hello</a>
+      </nav>
+      <button class="burger" id="burger" aria-label="Menu" aria-expanded="false"><i></i></button>
+    </div>
+    <div class="wrap drawer" id="drawer" hidden>
+      <a href="#about">About</a>
+      <a href="#music">Music</a>
+      <a href="#notes">Notes</a>
+      <a href="#photos">Photos</a>
+      <a href="#hello">Hello</a>
+    </div>
+  </header>
+
+  <main id="top">
+    <div class="wrap">
+      <section class="hero">
+        <div class="reveal">
+          <p class="hello">A small personal page</p>
+          <h1>Hi, I’m Kelton.</h1>
+          <p class="lead">
+            I live in Hong Kong. I like singing, reading a bit of philosophy,
+            and writing things down when a day feels worth keeping.
+            This page is just a quiet corner to share that — nothing fancy.
+          </p>
+          <div class="actions">
+            <a class="btn btn-soft" href="#about">A little about me</a>
+            <a class="btn btn-line" href="#photos">Photos</a>
+          </div>
+        </div>
+        <figure class="photo reveal">
+          <img src="assets/photo-portrait.jpg" alt="Kelton outdoors" />
+        </figure>
+      </section>
+
+      <section id="about">
+        <p class="label reveal">About</p>
+        <h2 class="reveal">Still figuring things out — and okay with that.</h2>
+        <div class="two">
+          <div class="prose reveal">
+            <p>
+              I’m <strong>Kelton Yeung</strong> (楊皓程). Most days I’m somewhere between schoolwork,
+              music, and long walks with my own thoughts.
+            </p>
+            <p>
+              I care about simple questions: what makes a day feel meaningful,
+              how a song can hold a feeling, and how to be a little kinder than yesterday.
+              I don’t have tidy answers. I just like staying curious.
+            </p>
+            <p>
+              If you’re here, thanks for stopping by. I hope something on this page
+              feels warm, familiar, or gently interesting.
+            </p>
+          </div>
+          <aside class="note reveal">
+            <h3>Things I enjoy</h3>
+            <ul>
+              <li>Singing — covers, quiet practice, the odd school stage</li>
+              <li>Philosophy — mostly as a way to ask better questions</li>
+              <li>Writing short notes and poem-like lines</li>
+              <li>Museums, hills, water, and unhurried afternoons</li>
+              <li>Badminton and being outdoors when I can</li>
+            </ul>
+          </aside>
+        </div>
+      </section>
+
+      <section id="music">
+        <p class="label reveal">Music</p>
+        <h2 class="reveal">I sing when I need to say something softly.</h2>
+        <div class="stage reveal">
+          <div class="stage-img">
+            <img src="assets/photo-stage.jpg" alt="Silhouette of Kelton singing on stage" />
+          </div>
+          <div class="stage-copy">
+            <p>
+              Music has always felt close. Sometimes I share short singing clips on Threads —
+              nothing polished, just whatever I felt like singing that day.
+            </p>
+            <p>
+              School gave me a few chances to perform. I’m grateful for those moments,
+              but what I love most is quieter: a room, a melody, and time to mean it.
+            </p>
+            <div class="actions">
+              <a class="btn btn-soft" href="https://www.threads.net/@kelton_yyyeung" target="_blank" rel="noopener">Singing on Threads</a>
+              <a class="btn btn-line" href="https://instagram.com/kelton_yeung" target="_blank" rel="noopener">Instagram</a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="notes">
+        <p class="label reveal">Notes</p>
+        <h2 class="reveal">Words I keep nearby.</h2>
+        <div class="words reveal">
+          <p class="quote">“Without music, life would be a mistake.”</p>
+          <p class="quote-src">A line I keep on my profile — after Nietzsche. It still feels true.</p>
+
+          <div class="word-grid">
+            <article class="card">
+              <h3>On ordinary meaning</h3>
+              <p>I used to wait for a big answer.
+Then a small classroom in Jiangxi
+taught me something gentler:
+
+meaning can be made
+in what we choose to give.</p>
+            </article>
+            <article class="card">
+              <h3>A quiet practice</h3>
+              <p>Some days I write.
+Some days I only listen.
+
+Both count.
+Both are a way of staying awake
+to my own life.</p>
+            </article>
+          </div>
+          <p class="prose" style="margin-top:1.2rem;font-size:.95rem">
+            I sometimes post short poems and thoughts on Instagram. If you like that sort of thing,
+            you’re welcome to read along — no pressure.
+          </p>
+        </div>
+      </section>
+
+      <section id="photos">
+        <p class="label reveal">Photos</p>
+        <h2 class="reveal">A few frames from life.</h2>
+        <div class="gallery">
+          <figure class="shot full reveal">
+            <img src="assets/photo-stage.jpg" alt="On stage under purple light" />
+            <figcaption>A stage moment<small>One song at a time</small></figcaption>
+          </figure>
+          <figure class="shot reveal">
+            <img src="assets/photo-gallery.jpg" alt="Looking at a painting in a gallery" />
+            <figcaption>Looking<small>Museums slow me down in a good way</small></figcaption>
+          </figure>
+          <figure class="shot reveal">
+            <img src="assets/photo-portrait.jpg" alt="Sitting in a stone frame outdoors" />
+            <figcaption>Outside<small>Sky, stone, and a pause</small></figcaption>
+          </figure>
+        </div>
+      </section>
+
+      <section id="hello">
+        <div class="contact reveal">
+          <div>
+            <p class="label">Hello</p>
+            <h2>If you’d like to say hi</h2>
+            <p>
+              I’m always glad to talk about music, books, or whatever you’re curious about.
+              No pitch — just people.
+            </p>
+            <div class="links">
+              <a class="btn btn-soft" href="mailto:keltonching20070103@gmail.com">Email me</a>
+              <a class="btn btn-line" href="https://instagram.com/kelton_yeung" target="_blank" rel="noopener">IG</a>
+            </div>
+          </div>
+          <div class="side-links">
+            <a href="mailto:keltonching20070103@gmail.com"><span>Email</span><em>keltonching20070103@gmail.com</em></a>
+            <a href="https://www.threads.net/@kelton_yyyeung" target="_blank" rel="noopener"><span>Threads</span><em>@kelton_yyyeung</em></a>
+            <a href="https://instagram.com/kelton_yeung" target="_blank" rel="noopener"><span>Instagram</span><em>@kelton_yeung</em></a>
+            <a href="https://instagram.com/kelton_yyyeung" target="_blank" rel="noopener"><span>Instagram</span><em>@kelton_yyyeung</em></a>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer>
+    <div class="wrap foot">
+      <span>© <span id="y"></span> Kelton Yeung</span>
+      <span>Made as a simple personal page</span>
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById('y').textContent = new Date().getFullYear();
+    const nav = document.getElementById('nav');
+    addEventListener('scroll', () => nav.classList.toggle('on', scrollY > 8), { passive: true });
+    nav.classList.toggle('on', scrollY > 8);
+
+    const burger = document.getElementById('burger');
+    const drawer = document.getElementById('drawer');
+    burger.addEventListener('click', () => {
+      const open = nav.classList.toggle('open');
+      burger.setAttribute('aria-expanded', String(open));
+      drawer.hidden = !open;
+    });
+    drawer.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+      nav.classList.remove('open');
+      burger.setAttribute('aria-expanded', 'false');
+      drawer.hidden = true;
+    }));
+
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('in');
+          io.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -30px 0px' });
+    document.querySelectorAll('.reveal').forEach((el, i) => {
+      el.style.transitionDelay = `${(i % 3) * 0.04}s`;
+      io.observe(el);
+    });
+  </script>
+</body>
+</html>
